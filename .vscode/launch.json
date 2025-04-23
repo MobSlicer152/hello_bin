@@ -5,6 +5,7 @@
       "name": "recursion",
       "type": "cppdbg",
       "program": "${workspaceFolder}/recursion",
+      "args": ["2", "4"],
       "request": "launch",
       "cwd": "${workspaceFolder}"
     }

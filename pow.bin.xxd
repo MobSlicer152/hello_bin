@@ -1,0 +1,22 @@
+00000000: 55                | push ebp
+00000001: 8b ec             | mov ebp, esp
+
+00000003: 8b 4d 08          | mov ecx, [ebp + 0x8]      a
+00000006: 8b 55 0c          | mov edx, [ebp + 0xc]      b
+
+00000009: 83 fa 00          | cmp edx, 0                if b == 0
+0000000c: 74 10             | je base                   return 1
+
+0000000e: 4a                | dec edx
+0000000f: 52                | push edx
+00000010: 51                | push ecx
+00000011: e8 ea ff ff ff    | call pow                  eax = pow(a, b - 1)
+00000016: 59                | pop ecx
+00000017: 5a                | pop edx
+
+00000018: 33 d2             | xor edx, edx              edx = 0 for mul
+0000001a: f7 e1             | mul ecx                   edx:eax = ecx * edx:eax
+0000001c: eb 05             | jmp done
+0000001e: b8 01 00 00 00    | mov eax, 1                base
+00000023: 5d                | pop ebp                   done
+00000024: c3                | ret                       return
