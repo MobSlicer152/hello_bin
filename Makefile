@@ -1,14 +1,21 @@
-all: hello.bin hello.o hello.elf
+all: hello.bin hello.o hello.elf recursion
 
 clean:
-	rm hello.bin hello.o hello.elf
+	rm -f hello.bin hello.o hello.elf recursion.o fib.o fib.bin
 
-hello.bin: hello.bin.xxd
+%.bin: %.bin.xxd
 	xxd -r $< $@
 
-hello.o: hello.bin
+%.o: %.bin
 	as --32 -o $@ $<.S
 
 hello.elf: hello.o
 	ld.lld -o $@ $< -T hello.ld
 
+TARGET="--target=i686-pc-linux-gnu"
+
+%.o: %.c
+	clang $(TARGET) -g -c -o $@ $<
+
+recursion: fib.o recursion.o
+	clang $(TARGET) -fuse-ld=lld -o $@ $^

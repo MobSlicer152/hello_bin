@@ -1,0 +1,33 @@
+00000000: 55                  | push ebp              stack frame
+00000001: 8b ec               | mov ebp, esp
+
+00000003: 8b 4d 08            | mov ecx, [ebp + 8]    ecx = n
+
+00000006: 83 f9 01            | cmp ecx, 1            check base case
+00000009: 74 1f               | je one                go to one if ecx == 1
+0000000b: 83 f9 00            | cmp ecx, 0
+0000000e: 7c 21               | je zero               go to zero if ecx == 0
+
+00000010: 49                  | dec ecx               ecx--
+00000011: 51                  | push ecx
+00000012: e8 e9 ff ff ff      | call fib              F(n - 1)
+00000017: 59                  | pop ecx
+00000018: 8b d8               | mov ebx, eax          store result
+
+0000001a: 49                  | dec ecx               ecx--
+0000001b: 53                  | push ebx
+0000001c: 51                  | push ecx
+0000001d: e8 de ff ff ff      | call fib              F(n - 2)
+00000022: 59                  | pop ecx
+00000023: 5b                  | pop ebx
+
+00000024: 01 d8               | add eax, ebx         F(n - 1) + F(n - 2)
+00000026: eb 06               | jmp done
+
+00000028: b8 01 00 00 00      | mov eax, 01          one
+0000002d: eb 04               | jmp done
+
+0000002f: 33 c0               | xor eax, eax         zero
+
+00000031: 5d                  | pop ebp              done
+00000032: c3                  | ret
